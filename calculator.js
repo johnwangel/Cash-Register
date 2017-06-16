@@ -3,12 +3,17 @@
       let module = {};
 
       module.changeDisplay = function(id){
-          if (window.operators.getOperand() !==""){ window.operators.clearDisplay(); }
+          let op = operators.getOperand();
+          if (op === "new" ){
+            operators.clearDisplay();
+            operators.changeOperand("continue");
+          } else if (op !== "continue") {
+            operators.clearDisplay();
+          }
           let currentString = document.getElementById("display").innerText;
           if (currentString === "0") { currentString = ""; }
           let myString = currentString + id.toString();
           document.getElementById("display").innerText = myString;
-
       }
 
       return module;
@@ -16,19 +21,13 @@
 
   window.operators = (function(){
 
-      let operand = "";
+      const disp = document.getElementById("display");
+
+      let operand = "continue";
       let tempMemoryValue = 0;
       let displayNumber = 0;
 
       let module = {};
-
-      module.changeOperand = function(y){
-        operand = y;
-      }
-
-      module.storeTempMemVal = function(num){
-        tempMemoryValue = num;
-      }
 
       module.getTempMemVal = function(num){
         return tempMemoryValue;
@@ -40,6 +39,10 @@
 
       module.getDisplayNumber = function(){
         return displayNumber;
+      }
+
+      module.changeOperand = function(y){
+        operand = y;
       }
 
       module.getOperand = function(){
@@ -69,34 +72,31 @@
       }
 
       module.math = function(id){
-        window.operators.storeTempMemVal(Number(document.getElementById("display").innerText));
-        //window.operators.clearDisplay();
-        window.operators.changeOperand(id);
+        calculator.load(Number(document.getElementById("display").innerText));
+        operators.changeOperand(id);
       }
 
       module.equals = function(){
-          window.operators.storeDisplayNumber(document.getElementById("display").innerText);
-
-          switch (window.operators.getOperand()) {
-            case "add":
-              let num = 0;
-              num = window.operators.getTempMemVal() + Number(window.operators.getDisplayNumber());
-              console.log(window.operators.getTempMemVal());
-              console.log(Number(window.operators.getDisplayNumber()));
-              console.log(num);
-              console.log(typeof num);
-              document.getElementById("display").innerText = window.operators.getTempMemVal() + Number(window.operators.getDisplayNumber());
-            case "subtract":
-              document.getElementById("display").innerText = window.operators.getTempMemVal() - Number(document.getElementById("display").innerText);
-            case "multiply":
-              document.getElementById("display").innerText = window.operators.getTempMemVal() * Number(document.getElementById("display").innerText);
-            case "divide":
-              document.getElementById("display").innerText = window.operators.getTempMemVal() / Number(document.getElementById("display").innerText);
-            default:
-              document.getElementById("display").innerText = Number(document.getElementById("display").innerText);
+        let prevVal = calculator.getTotal();
+        let currVal = Number(document.getElementById("display").innerText);
+        switch (operators.getOperand()) {
+          case "add":
+            document.getElementById("display").innerText = calculator.add(prevVal, currVal);
+            break;
+          case "subtract":
+            document.getElementById("display").innerText = calculator.subtract(prevVal, currVal);
+            break;
+          case "multiply":
+            document.getElementById("display").innerText = calculator.multiply(prevVal, currVal);
+            break;
+          case "divide":
+            document.getElementById("display").innerText = calculator.divide(prevVal, currVal);
+            break;
+          default:
+            document.getElementById("display").innerText = currVal;
         }
-        window.operators.storeTempMemVal(0);
-        window.operators.changeOperand("");
+        calculator.load(0);
+        operators.changeOperand("new");
       }
 
       return module;
