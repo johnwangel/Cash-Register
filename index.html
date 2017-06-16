@@ -5,130 +5,6 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>Cash Register</title>
-
-<script>
-  let numbers = (function(){
-    let module = {};
-
-    module.changeDisplay = function(id){
-        let currentString = document.getElementById("display").innerText;
-        if (currentString === "0") { currentString = ""; }
-        let myString = currentString + id.toString();
-        document.getElementById("display").innerText = myString;
-    }
-    return module;
-})();
-
-function calculatorModule(){
-
-  let memory = 0;
-  let total = 0;
-
-  /**
-   * Validation
-   */
-   function validate (x) {
-      if (typeof x !== 'number') {
-          throw new Error('Not a number!');
-        }
-   }
-
-    /**
-     * sets the `total` to the number passed in
-     * @param  { Number } x
-     * @return { Number }    current total
-     */
-     let load = function (x) {
-        validate(x);
-        total = x;
-        return total;
-     }
-
-    /**
-     * Return the value of `total`
-     * @return { Number }
-     */
-     let getTotal = function () {
-        return total;
-     }
-
-    /**
-     * Sums the value passed in with `total`
-     * @param { Number } x
-     */
-     let add = function (x) {
-        validate(x);
-        total += x;
-        return total;
-     }
-
-    /**
-     * Subtracts the value passed in from `total`
-     * @param  { Number } x
-     */
-     let subtract = function (x) {
-        validate(x);
-        total -= x;
-        return total;
-     }
-
-    /**
-     * Multiplies the value by `total`
-     * @param  { Number } x
-     */
-     let multiply = function (x) {
-        validate(x);
-        total = total * x;
-        return total;
-     }
-
-    /**
-     * Divides the value passing in by `total`
-     * @param  { Number } x
-     */
-     let divide = function (x) {
-        validate(x);
-        total = total / x;
-        return total;
-     }
-
-    /**
-     * Return the value stored at `memory`
-     * @return { Number }
-     */
-     let recallMemory = function () {
-        return memory;
-     }
-
-    /**
-     * Stores the value of `total` to `memory`
-     */
-     let saveMemory = function () {
-        memory = total;
-     }
-
-    /**
-     * Clear the value stored at `memory`
-     */
-     let clearMemory = function () {
-        memory = 0;
-     }
-
-     return  {
-      load: load,
-      getTotal: getTotal,
-      add: add,
-      subtract: subtract,
-      multiply: multiply,
-      divide: divide,
-      recallMemory: recallMemory,
-      saveMemory: saveMemory,
-      clearMemory: clearMemory
-     }
-}
-
-</script>
-
 </head>
 
 
@@ -137,11 +13,11 @@ function calculatorModule(){
 <p id="display">0</p>
 
 <p>
-<button id="7" onclick="numbers.changeDisplay(this.id)">7</button>
+<button id="7" onclick="window.numbers.changeDisplay(this.id)">7</button>
 <button id="8" onclick="numbers.changeDisplay(this.id)">8</button>
 <button id="9" onclick="numbers.changeDisplay(this.id)">9</button>
 <button id="plus" onclick="myFunction()">÷</button>
-<button id="clear" onclick="myFunction()">clear</button>
+<button id="clear" onclick="window.operators.clearDisplay()">clear</button>
 </p>
 
 <p>
@@ -149,14 +25,14 @@ function calculatorModule(){
 <button id="5" onclick="numbers.changeDisplay(this.id)">5</button>
 <button id="6" onclick="numbers.changeDisplay(this.id)">6</button>
 <button id="multiply" onclick="myFunction()">×</button>
-<button  id="get_balance" onclick="myFunction()">get balance</button></p>
+<button  id="get_balance" onclick="window.operators.getBalance()">get balance</button></p>
 
 <p>
 <button id="1" onclick="numbers.changeDisplay(this.id)">1</button>
 <button id="2" onclick="numbers.changeDisplay(this.id)">2</button>
 <button id="3"  onclick="numbers.changeDisplay(this.id)">3</button>
 <button id="subtract" onclick="myFunction()">-</button>
-<button id="deposit" onclick="myFunction()">deposit cash</button>
+<button id="deposit" onclick="window.operators.depositCash()">deposit cash</button>
 </p>
 
 <p>
@@ -167,7 +43,7 @@ function calculatorModule(){
 <button id="withdraw" onclick="myFunction()">withdraw cash</button></p>
 
 <p><button id="equals" onclick="myFunction()">=</button></p>
-
+<script src="calculator.js"></script>
 </body>
 
 </html>
