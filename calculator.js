@@ -3,17 +3,40 @@
       let module = {};
 
       module.changeDisplay = function(id){
-          let op = operators.getOperand();
-          if (op === "new" ){
+          if (operators.getNewNumberState() === true ){
             operators.clearDisplay();
-            operators.changeOperand("continue");
-          } else if (op !== "continue") {
-            operators.clearDisplay();
+            operators.changeNumberState(false);
           }
           let currentString = document.getElementById("display").innerText;
           if (currentString === "0") { currentString = ""; }
           let myString = currentString + id.toString();
           document.getElementById("display").innerText = myString;
+      }
+
+      module.formatNumber = function(myNumberString){
+        let dotIndex = myNumberString.indexOf(".")
+        let strLen = myNumberString.length;
+        let whereDotShouldBe = strLen -3;
+        console.log("Dot: " + dotIndex);
+        console.log("String length is " + strLen);
+        let myString = "";
+        if (dotIndex === -1){
+          return myNumberString + ".00";
+        } else if (dotIndex !== whereDotShouldBe){
+          myDec = myNumberString.split(".");
+          let myNewDec = 0;
+          let evalNum = Number(myDec[1].charAt(1));
+          if (evalNum >= 5 && evalNum < 9) {
+            myNewDec = String(Number(myDec[1].charAt(1))+1);
+          } else if (evalNum === 9){
+            myNewDec = "0";
+          } else {
+            myNewDec = String(evalNum);
+          }
+          return myDec[0] + "."  + myDec[1].charAt(0) + myNewDec;
+        } else {
+          return myNumberString;
+        }
       }
 
       return module;
@@ -23,11 +46,18 @@
 
       const disp = document.getElementById("display");
 
-      let operand = "continue";
+      let operand = "";
+      let newNumberState = true;
       let tempMemoryValue = 0;
-      let displayNumber = 0;
-
       let module = {};
+
+      module.changeNumberState = function(bool){
+        newNumberState = bool;
+      }
+
+      module.getNewNumberState = function(){
+        return newNumberState;
+      }
 
       module.getTempMemVal = function(num){
         return tempMemoryValue;
@@ -60,6 +90,7 @@
       }
 
       module.depositCash = function(){
+
           let myDeposit =  Number(document.getElementById("display").innerText) + window.calculator.getTotal();
           window.calculator.load(myDeposit);
           window.operators.clearDisplay();
@@ -74,29 +105,33 @@
       module.math = function(id){
         calculator.load(Number(document.getElementById("display").innerText));
         operators.changeOperand(id);
+        operators.changeNumberState(true);
       }
 
       module.equals = function(){
-        let prevVal = calculator.getTotal();
         let currVal = Number(document.getElementById("display").innerText);
+        let newVAl = "";
+        console.log(currVal);
         switch (operators.getOperand()) {
           case "add":
-            document.getElementById("display").innerText = calculator.add(prevVal, currVal);
+            newVal = numbers.formatNumber(String(calculator.add(currVal)));
+            document.getElementById("display").innerText = newVal;
             break;
           case "subtract":
-            document.getElementById("display").innerText = calculator.subtract(prevVal, currVal);
+            document.getElementById("display").innerText = calculator.subtract(currVal);
             break;
           case "multiply":
-            document.getElementById("display").innerText = calculator.multiply(prevVal, currVal);
+            document.getElementById("display").innerText = calculator.multiply(currVal);
             break;
           case "divide":
-            document.getElementById("display").innerText = calculator.divide(prevVal, currVal);
+            document.getElementById("display").innerText = calculator.divide(currVal);
             break;
           default:
             document.getElementById("display").innerText = currVal;
         }
         calculator.load(0);
-        operators.changeOperand("new");
+        operators.changeOperand("");
+        operators.changeNumberState(true);
       }
 
       return module;
@@ -107,105 +142,67 @@
     let memory = 0;
     let total = 0;
 
-    /**
-     * Validation
-     */
      function validate (x) {
         if (typeof x !== 'number') {
             throw new Error('Not a number!');
           }
      }
 
-      /**
-       * sets the `total` to the number passed in
-       * @param  { Number } x
-       * @return { Number }    current total
-       */
-       let load = function (x) {
-          validate(x);
-          total = x;
-          return total;
-       }
+     let load = function (x) {
+        validate(x);
+        total = x;
+        return total;
+     }
 
-      /**
-       * Return the value of `total`
-       * @return { Number }
-       */
-       let getTotal = function () {
-          return total;
-       }
+     let getTotal = function () {
+        return total;
+     }
 
-      /**
-       * Sums the value passed in with `total`
-       * @param { Number } x
-       */
-       let add = function (x) {
-          validate(x);
-          total += x;
-          return total;
-       }
+     let add = function (x) {
+        validate(x);
+        total += x;
+        return total;
+     }
 
-      /**
-       * Subtracts the value passed in from `total`
-       * @param  { Number } x
-       */
-       let subtract = function (x) {
-          validate(x);
-          total -= x;
-          return total;
-       }
+     let subtract = function (x) {
+        validate(x);
+        total -= x;
+        return total;
+     }
 
-      /**
-       * Multiplies the value by `total`
-       * @param  { Number } x
-       */
-       let multiply = function (x) {
-          validate(x);
-          total = total * x;
-          return total;
-       }
+     let multiply = function (x) {
+        validate(x);
+        total = total * x;
+        return total;
+     }
 
-      /**
-       * Divides the value passing in by `total`
-       * @param  { Number } x
-       */
-       let divide = function (x) {
-          validate(x);
-          total = total / x;
-          return total;
-       }
+     let divide = function (x) {
+        validate(x);
+        total = total / x;
+        return total;
+     }
 
-      /**
-       * Return the value stored at `memory`
-       * @return { Number }
-       */
-       let recallMemory = function () {
-          return memory;
-       }
+     let recallMemory = function () {
+        return memory;
+     }
 
-      /**
-       * Stores the value of `total` to `memory`
-       */
-       let saveMemory = function () {
-          memory = total;
-       }
+     let saveMemory = function () {
+        memory = total;
+     }
 
-      /**
-       * Clear the value stored at `memory`
-       */
-       let clearMemory = function () {
-          memory = 0;
-       }
+     let clearMemory = function () {
+        memory = 0;
+     }
 
-       return  {
-        load: load,
-        getTotal: getTotal,
-        add: add,
-        subtract: subtract,
-        multiply: multiply,
-        divide: divide,
-        recallMemory: recallMemory,
-        saveMemory: saveMemory,
-        clearMemory: clearMemory
-       }
+     return  {
+      load: load,
+      getTotal: getTotal,
+      add: add,
+      subtract: subtract,
+      multiply: multiply,
+      divide: divide,
+      recallMemory: recallMemory,
+      saveMemory: saveMemory,
+      clearMemory: clearMemory
+     }
 })();
