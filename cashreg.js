@@ -17,29 +17,6 @@
         };
       };
 
-      module.formatNumber = function(myNumberString){
-        let dotIndex = myNumberString.indexOf(".");
-        let strLen = myNumberString.length;
-        let whereDotShouldBe = strLen -3;
-        let myString = "";
-        if (dotIndex === -1){
-          return myNumberString + ".00";
-        } else if (dotIndex !== whereDotShouldBe){
-          myDec = myNumberString.split(".");
-          let myNewDec = 0;
-          let evalNum = Number(myDec[1].charAt(1));
-          if (evalNum >= 5 && evalNum < 9) {
-            myNewDec = String(Number(myDec[1].charAt(1))+1);
-          } else if (evalNum === 9){
-            myNewDec = "0";
-          } else {
-            myNewDec = String(evalNum);
-          }
-          return myDec[0] + "."  + myDec[1].charAt(0) + myNewDec;
-        } else {
-          return myNumberString;
-        }
-      };
 
       return module;
   })();
@@ -98,7 +75,7 @@
       module.getBalance = function(){
           return function(){
             let myString = String(operators.getCashBalance());
-            disp.innerText = numbers.formatNumber(myString);
+            disp.innerText = Num(myString).toFixed(2);
             operators.changeNumberState(true);
           };
       };
@@ -139,19 +116,19 @@
 
         switch (operators.getOperand()) {
           case "add":
-            newVal = numbers.formatNumber(String(calculator.add(currVal)));
+            newVal = calculator.add(currVal).toFixed(2);
             disp.innerText = newVal;
             break;
           case "subtract":
-            newVal = numbers.formatNumber(String(calculator.subtract(currVal)));
+            newVal = calculator.subtract(currVal).toFixed(2);
             disp.innerText = newVal;
             break;
           case "multiply":
-            newVal = numbers.formatNumber(String(calculator.multiply(currVal)));
+            newVal = calculator.multiply(currVal).toFixed(2);
             disp.innerText = newVal;
             break;
           case "divide":
-            newVal = numbers.formatNumber(String(calculator.divide(currVal)));
+            newVal = calculator.divide(currVal).toFixed(2);
             disp.innerText = newVal;
             break;
           default:
