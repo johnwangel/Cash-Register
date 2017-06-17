@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+  <meta http-equiv="Content-class" content="text/html; charset=UTF-8" />
+  <style class="text/css">
+    div {
+        display:inline-block;
+        color:#444;
+        border:1px solid #CCC;
+        background:#DDD;
+        box-shadow: 0 0 5px -1px rgba(0,0,0,0.2);
+        cursor:pointer;
+        vertical-align:middle;
+        padding: 5px;
+        text-align: center;
+    }
+
+    div.display_button{
+      width: 265px;
+      text-align: right;
+    }
+
+    div.small_button {
+        width: 25px;
+    }
+
+    div.med_button {
+        width: 100px;
+    }
+
+    div.long_button {
+        width: 265px;
+    }
+
+  </style>
+  <title>Cash Register</title>
+</head>
+
+
+<body>
+
+<p><div class="display_button" id="display">0.00</div></p>
+
+<p>
+<div class="small_button" id="7">7</div>
+<div class="small_button" id="8">8</div>
+<div class="small_button" id="9">9</div>
+<div class="small_button" id="divide">÷</div>
+<div class="med_button" id="clear">clear</div>
+</p>
+
+<p>
+<div class="small_button"  id="4">4</div>
+<div class="small_button"  id="5">5</div>
+<div class="small_button"  id="6">6</div>
+<div class="small_button"  id="multiply"">×</div>
+<div class="med_button" id="get_balance">get balance</div></p>
+
+<p>
+<div class="small_button"  id="1">1</div>
+<div class="small_button"  id="2">2</div>
+<div class="small_button"  id="3">3</div>
+<div class="small_button"  id="subtract">-</div>
+<div class="med_button" id="deposit">deposit cash</div>
+</p>
+
+<p>
+<div class="small_button"  id="0">0</div>
+<div class="small_button"  id="00">00</div>
+<div class="small_button"  id=".">.</div>
+<div class="small_button"  id="add">+</div>
+<div class="med_button" id="withdraw">withdraw cash</div></p>
+
+<p><div class="long_button"  id="equals" onclick="operators.equals()">=</div></p>
+<script src="calculator.js"></script>
+<script src="cashreg.js"></script>
+</body>
+
+</html>
