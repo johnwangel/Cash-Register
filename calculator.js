@@ -46,6 +46,7 @@
 
       const disp = document.getElementById("display");
 
+      let cashBalance = 0;
       let operand = "";
       let newNumberState = true;
       let tempMemoryValue = 0;
@@ -59,16 +60,12 @@
         return newNumberState;
       }
 
-      module.getTempMemVal = function(num){
-        return tempMemoryValue;
+      module.getCashBalance = function(num){
+        return cashBalance;
       }
 
-      module.storeDisplayNumber = function(n){
-        displayNumber  = n;
-      }
-
-      module.getDisplayNumber = function(){
-        return displayNumber;
+      module.storeCashBalance = function(n){
+        cashBalance  = n;
       }
 
       module.changeOperand = function(y){
@@ -84,22 +81,21 @@
       }
 
       module.getBalance = function(){
-          let myString =  window.calculator.getTotal().toString();
-          alert("Current balance: " + myString);
-          //document.getElementById("display").innerText);
+          let myString = String(operators.getCashBalance());
+          document.getElementById("display").innerText = numbers.formatNumber(myString);
+          operators.changeNumberState(true);
       }
 
       module.depositCash = function(){
-
-          let myDeposit =  Number(document.getElementById("display").innerText) + window.calculator.getTotal();
-          window.calculator.load(myDeposit);
-          window.operators.clearDisplay();
+          let myDeposit =  Number(document.getElementById("display").innerText) + operators.getCashBalance();
+          operators.storeCashBalance(myDeposit);
+          operators.clearDisplay();
       }
 
       module.withdrawCash = function(){
-          let myWithdrawal = window.calculator.getTotal() - Number(document.getElementById("display").innerText);
-          window.calculator.load(myWithdrawal);
-          window.operators.clearDisplay();
+          let myWithdrawal = operators.getCashBalance() - Number(document.getElementById("display").innerText);
+          operators.storeCashBalance(myWithdrawal);
+          operators.clearDisplay();
       }
 
       module.math = function(id){
