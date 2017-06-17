@@ -1,54 +1,79 @@
-<!DOCTYPE HTML>
+<!DOCclass HTML>
 
 <html>
 
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="Content-class" content="text/html; charset=UTF-8" />
+  <style class="text/css">
+    div {
+        display:inline-block;
+        color:#444;
+        border:1px solid #CCC;
+        background:#DDD;
+        box-shadow: 0 0 5px -1px rgba(0,0,0,0.2);
+        cursor:pointer;
+        vertical-align:middle;
+        padding: 5px;
+        text-align: center;
+    }
+
+    div.display_button{
+      width: 265px;
+      text-align: right;
+    }
+
+    div.small_button {
+        width: 25px;
+    }
+
+    div.med_button {
+        width: 100px;
+    }
+
+    div.long_button {
+        width: 265px;
+    }
+
+  </style>
   <title>Cash Register</title>
 </head>
 
 
 <body>
 
-<table border="1px solid black" align="left" style="width:35%">
-  <tr>
-    <th bgcolor="lightGray" align="right" id="display">0.00</th>
-  </tr>
-
-</table>
-<br/>
+<p><div class="display_button" id="display">0.00</div></p>
 
 <p>
-<button id="7" onclick="window.numbers.changeDisplay(this.id)">7</button>
-<button id="8" onclick="numbers.changeDisplay(this.id)">8</button>
-<button id="9" onclick="numbers.changeDisplay(this.id)">9</button>
-<button id="divide" onclick="operators.math(this.id)">÷</button>
-<button id="clear" onclick="operators.clearDisplay()">clear</button>
+<div class="small_button" id="7">7</div>
+<div class="small_button" id="8">8</div>
+<div class="small_button" id="9">9</div>
+<div class="small_button" id="divide">÷</div>
+<div class="med_button" id="clear">clear</div>
 </p>
 
 <p>
-<button id="4" onclick="numbers.changeDisplay(this.id)">4</button>
-<button id="5" onclick="numbers.changeDisplay(this.id)">5</button>
-<button id="6" onclick="numbers.changeDisplay(this.id)">6</button>
-<button id="multiply" onclick="operators.math(this.id)">×</button>
-<button id="get_balance" onclick="operators.getBalance()">get balance</button></p>
+<div class="small_button"  id="4">4</div>
+<div class="small_button"  id="5">5</div>
+<div class="small_button"  id="6">6</div>
+<div class="small_button"  id="multiply"">×</div>
+<div class="med_button" id="get_balance">get balance</div></p>
 
 <p>
-<button id="1" onclick="numbers.changeDisplay(this.id)">1</button>
-<button id="2" onclick="numbers.changeDisplay(this.id)">2</button>
-<button id="3" onclick="numbers.changeDisplay(this.id)">3</button>
-<button id="subtract" onclick="operators.math(this.id)">-</button>
-<button id="deposit" onclick="operators.depositCash()">deposit cash</button>
+<div class="small_button"  id="1">1</div>
+<div class="small_button"  id="2">2</div>
+<div class="small_button"  id="3">3</div>
+<div class="small_button"  id="subtract">-</div>
+<div class="med_button" id="deposit">deposit cash</div>
 </p>
 
 <p>
-<button id="0" onclick="numbers.changeDisplay(this.id)">0</button>
-<button id="00" onclick="numbers.changeDisplay(this.id)">00</button>
-<button id="." onclick="numbers.changeDisplay(this.id)">.</button>
-<button id="add" onclick="operators.math(this.id)">+</button>
-<button id="withdraw" onclick="operators.withdrawCash()">withdraw cash</button></p>
+<div class="small_button"  id="0">0</div>
+<div class="small_button"  id="00">00</div>
+<div class="small_button"  id=".">.</div>
+<div class="small_button"  id="add">+</div>
+<div class="med_button" id="withdraw">withdraw cash</div></p>
 
-<p><button id="equals" onclick="operators.equals()">=</button></p>
+<p><div class="long_button"  id="equals" onclick="operators.equals()">=</div></p>
 <script src="calculator.js"></script>
 <script src="cashreg.js"></script>
 </body>
