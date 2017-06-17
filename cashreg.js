@@ -75,7 +75,7 @@
       module.getBalance = function(){
           return function(){
             let myString = String(operators.getCashBalance());
-            disp.innerText = Num(myString).toFixed(2);
+            disp.innerText = Number(myString).toFixed(2);
             operators.changeNumberState(true);
           };
       };
